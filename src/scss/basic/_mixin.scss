@@ -1,0 +1,151 @@
+@use "sass:math";
+@use "sass:map";
+
+@use './_variable' as *;
+//-------------------------------------------------------------mixin-media-------//
+// media query @include screen(desktop) { color: red; }
+$notebookMin: map.get($screenSize, notebook) + 1;
+$tabletMin: map.get($screenSize, tablet) + 1;
+$mobileMin: map.get($screenSize, mobile) + 1;
+$xsMobileMin: map.get($screenSize, xsMobile) + 1;
+
+@mixin screen($size) {
+  @if $size==notebook {
+    @media screen and (max-width: #{map.get($screenSize, notebook)}) {
+      @content;
+    }
+  }
+
+  @else if $size==notebookMin {
+    @media screen and (min-width: #{$notebookMin}) {
+      @content;
+    }
+  }
+
+  @else if $size==tablet {
+    @media screen and (max-width: #{map.get($screenSize, tablet)}) {
+      @content;
+    }
+  }
+
+  @else if $size==tabletMin {
+    @media screen and (min-width: #{$tabletMin}) {
+      @content;
+    }
+  }
+
+  @else if $size==mobile {
+    @media screen and (max-width: #{map.get($screenSize, mobile)}) {
+      @content;
+    }
+  }
+
+  @else if $size==mobileMin {
+    @media screen and (min-width: #{$mobileMin}) {
+      @content;
+    }
+  }
+
+  @else if $size==xsMobile {
+    @media screen and (max-width: #{map.get($screenSize, xsMobile)}) {
+      @content;
+    }
+  }
+
+  @else if $size==xsMobileMin {
+    @media screen and (min-width: #{$xsMobileMin}) {
+      @content;
+    }
+  }
+}
+
+//最大寬度 @include screenMax(1440) { color: red; }
+@mixin screenMax($sizeWidth) {
+  $sizeWidthUse: '(max-width: #{$sizeWidth}px)';
+
+  @media screen and #{$sizeWidthUse} {
+    @content;
+  }
+}
+
+//最小寬度 @include screenMin(1440) { color: red; }
+@mixin screenMin($sizeWidth) {
+  $sizeWidthUse: '(min-width: #{$sizeWidth}px)';
+
+  @media screen and #{$sizeWidthUse} {
+    @content;
+  }
+}
+
+// 計算寬度(一般用)
+// $gap 間距 $count 幾個
+// width: itemWidth(20, 3);
+@function itemWidth($gap, $count) {
+  @return calc((100% - #{$gap}px * (#{$count} - 1)) / #{$count});
+}
+
+// 計算寬度(格線系統用)
+// $gap 間距 $count 幾個
+// flex:1 1 flexWidth(20, 3);
+@function flexWidth($gap, $count) {
+  @return calc((100% - #{$gap}px * 11) / 12 * #{$count} + #{$gap}px * (#{$count} - 1));
+}
+
+// px轉rem
+// font-size: Rem(20);
+@function Rem($n: $mainFontSize) {
+  @return math.div($n, $mainFontSize) * 1rem;
+}
+
+// transition @include transition(all, 0.3, ease);
+@mixin transition($i: 0.3, $elem: all, $type: ease) {
+  transition: $elem #{$i}s $type;
+}
+
+// 清除預設樣式 @include liReset();
+@mixin liReset() {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// 行數限制 @include lineClamp(4);
+@mixin lineClamp($count: 1) {
+  -webkit-line-clamp: $count;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+//漸層功能
+@mixin gradient($startColor, $endColor, $orientation) {
+  background: $startColor;
+
+  @if $orientation=='vertical' {
+    background: -webkit-linear-gradient(top, $startColor, $endColor);
+    background: linear-gradient(to bottom, $startColor, $endColor);
+  }
+
+  @else if $orientation=='horizontal' {
+    background: -webkit-linear-gradient(left, $startColor, $endColor);
+    background: linear-gradient(to right, $startColor, $endColor);
+  }
+
+  @else if $orientation=='diagonal' {
+    background: -webkit-linear-gradient(to bottom right, $startColor, $endColor);
+    background: linear-gradient(to bottom right, $startColor, $endColor);
+  }
+
+  @else if $orientation=='circle' {
+    background: -webkit-radial-gradient(center, ellipse cover, $startColor, $endColor);
+    background: radial-gradient(ellipse at center, $startColor, $endColor);
+  }
+}
+
+// 範例：
+// .gradient {
+// @include gradient(#07c, #06f, vertical);      // 垂直
+// @include gradient(#07c, #06f, horizontal);    // 水平
+// @include gradient(#07c, #06f, diagonal);      // 對角線
+// @include gradient(#07c, #06f, circle);        // 圓形
+// }

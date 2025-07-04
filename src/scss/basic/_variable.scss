@@ -1,0 +1,113 @@
+@use 'sass:color';
+@use "sass:map";
+//-------------------------------------------------------------顏色---------//
+// 定義顏色 此顏色可自由變換
+$colorPrimary: #0156A2; //主色
+$colorPrimaryLight: color.mix($colorPrimary, #fff, 10%); //主色淺色
+$colorPrimaryDark: color.mix($colorPrimary, #000, 90%); //主色深色
+
+$colorSecondary: #326DC7; //輔色
+$colorSecondaryLight: color.mix($colorSecondary, #fff, 10%); //輔色淺色
+$colorSecondaryDark: color.mix($colorSecondary, #000, 90%); //輔色深色
+
+// word顏色設定
+$colorWord: #333333;
+$colorWordLight: #555555;
+$colorWordDark: #111111;
+
+// other 
+$colorDisabled: #DEE0E3;
+$colorError: #C40000;
+$checkboxRadio: #97A3B6;
+$colorAccessibility: #C40000;
+
+// nav顏色設定
+$surface :$colorPrimary;
+$hoverShadow: #80CBD7;
+
+// link顏色設定
+$aColor: $colorSecondary;
+$aHover: color.mix($aColor, #000, 90%);
+
+//btn
+$btnPrimary: $colorPrimary;
+$btnPrimaryHover: $colorPrimaryDark;
+$btnPrimaryLightHover: $colorPrimaryLight;
+
+$btnSecondary: $colorSecondary;
+$btnSecondaryHover: $colorSecondaryDark;
+$btnSecondaryLightHover: $colorSecondaryLight;
+
+$btnNormal: #DEE0E3;
+$btnNormalHover: color.mix($btnNormal, #000, 90%);
+$btnNormalOutline: #69707D;
+$btnNormalLightHover: #F1F1F1;
+$btnDisabled: $colorDisabled;
+$btnDisabledOutline: #97A3B6;
+
+// notice
+$noticeNormalGWord: #333;
+$noticeNormalGBg: #DEE0E3;
+
+$noticeNormalWord: #00529B;
+$noticeNormalBg: #CFE5FC;
+
+$noticeSuccessWord: #00754B;
+$noticeSuccessBg: #CDF3E6;
+
+$noticeWarningWord: #C23E00;
+$noticeWarningBg: #FAECE6;
+
+$noticeErrorWord: #C40000;
+$noticeErrorBg: #FDD7DE;
+
+// nav
+$navSurface: $colorPrimary;
+$navSurfaceHover: #80CBD7;
+
+// form
+$formFocus: $colorPrimary;
+$formError: $colorError;
+$formDisabled: $colorDisabled;
+
+// table
+$tableBorder: #F1F1F1;
+// table th
+$tablePrimary: $colorPrimary;
+$tableSecondary: $colorSecondary;
+$tableNormal: $colorDisabled;
+
+//-------------------------------------------------------------字型--------//
+
+// 字型設定
+$arial: Arial, '微軟正黑體', 'Microsoft JhengHei', '蘋果儷中黑', 'Apple LiGothic Medium', sans-serif, '0xe804';
+$NotoSansTC: 'Noto Sans TC', Arial, '微軟正黑體', 'Microsoft JhengHei', '蘋果儷中黑', 'Apple LiGothic Medium', sans-serif, '0xe804';
+//-------------------------------------------------------------版面------//
+
+//基本文字大小
+$mainFontSize: 16;
+
+// 內容尺寸設定
+$domWidth: 1400px;
+
+// flexTemplate gap值
+$flexTemplateGap: 24;
+
+//RWD尺寸設定
+$screenSize: (
+  //電腦
+  notebook: 1399px,
+  //平板
+  tablet: 991px,
+  //手機
+  mobile: 767px,
+  //極小尺寸
+  xsMobile: 575px,
+);
+
+:root {
+  --RWDWidth: #{map.get($screenSize, tablet)}; //RWD切換尺寸設定，以下切換js為手機板相關設定
+  --sideFixTop: 80px; //側邊選單top固定位置
+  --borderRadius: 8px; //圓角設定
+  --borderRadius2: 4px; //圓角設定
+}

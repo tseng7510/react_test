@@ -1,0 +1,68 @@
+@use './basic/variable' as *;
+@use './basic/_mixin' as *;
+
+
+.mainBox {
+  display: flex;
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .infoTitle {
+    font-weight: bold;
+    font-size: Rem(26);
+    margin-bottom: 20px;
+  }
+
+  fieldset {
+    display: none;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .reader {
+    ul {
+      li {
+        display: flex;
+
+        .title {
+          width: 80px;
+        }
+      }
+    }
+  }
+}
+
+.MuiChartsAxis-tick {
+  display: none;
+}
+
+.chartBox {
+  flex-grow: 1;
+
+  .container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .chartOuter {
+    width: calc((100% - 20px) / 2);
+
+    .MuiChartsLegend-root {
+      margin: 0 auto 0 0;
+    }
+
+    .MuiChartsAxis-label {
+      display: none;
+    }
+  }
+}
