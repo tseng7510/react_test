@@ -89,32 +89,31 @@ const Home = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  // 使用 useMemo 動態計算 xAxis 的設定，只有在 dataset 改變時才會重新計算
-  const xAxisConfig = useMemo(() => {
+  // 使用 useMemo 一次性計算出所有與圖表座標軸相關的設定
+  const chartAxisSettings = useMemo(() => {
     // 2. 為了讓兩張圖表比例一致，從兩份資料中共同找出最大值
     const allCounts = [...chartAData.map((item) => item.count), ...chartBData.map((item) => item.count)];
     const dataMax = Math.max(...allCounts, 0);
 
+    let axisMax;
     // 當沒有資料時，提供一個預設的座標軸
     if (dataMax === 0) {
-      return [{ max: 20, tickValues: [0, 5, 10, 15, 20], label: '閱讀次數' }];
+      axisMax = 20;
+    } else {
+      // 2. 決定座標軸的最大值。至少為 20，並向上取到最接近的 10 的倍數
+      axisMax = Math.ceil(Math.max(20, dataMax) / 10) * 10;
     }
-    // 2. 決定座標軸的最大值。至少為 20，並向上取到最接近的 10 的倍數
-    const axisMax = Math.ceil(Math.max(20, dataMax) / 10) * 10;
 
     // 3. 動態產生刻度值 (例如，我們希望有 5 個區間)
     const tickIncrement = axisMax / 5;
     const tickValues = Array.from({ length: 6 }, (_, i) => i * tickIncrement);
 
     // 4. 回傳完整的設定物件
-    return [
-      {
-        max: axisMax,
-        tickValues: tickValues,
-        label: '閱讀次數', // 為 X 軸加上標籤
-      },
-    ];
-  }, [chartAData, chartBData]); // 依賴兩份圖表資料
+    return {
+      config: [{ max: axisMax, tickValues, label: '閱讀次數' }],
+      max: axisMax,
+    };
+  }, [chartAData, chartBData]);
 
   // 3. 將核心資料處理邏輯封裝在 useCallback 中，以便重用並優化效能
   const processData = useCallback((start, end) => {
@@ -211,8 +210,8 @@ const Home = () => {
       ) : (
         <div className='chartBox'>
           <div className='container'>
-            <ChartBar type='typeA' dataset={chartAData} width={100} yDataKey='name' sDataKey='count' sDataLabel='專業能力指標' barColor='#2ca02c' xAxisConfig={xAxisConfig} countMax={xAxisConfig[0].max} />
-            <ChartBar type='typeB' dataset={chartBData} width={100} yDataKey='name' sDataKey='count' sDataLabel='共同職能指標' barColor='#1f77b4' xAxisConfig={xAxisConfig} countMax={xAxisConfig[0].max} />
+            <ChartBar type='typeA' dataset={chartAData} width={100} yDataKey='name' sDataKey='count' sDataLabel='專業能力指標' barColor='#2ca02c' xAxisConfig={chartAxisSettings.config} countMax={chartAxisSettings.max} />
+            <ChartBar type='typeB' dataset={chartBData} width={100} yDataKey='name' sDataKey='count' sDataLabel='共同職能指標' barColor='#1f77b4' xAxisConfig={chartAxisSettings.config} countMax={chartAxisSettings.max} />
           </div>
         </div>
       )}

@@ -9,7 +9,7 @@ export default function ChartBar({ type, dataset, width, yDataKey, sDataKey, bar
   // 移除外層多餘的 div，直接回傳 BarChart 元件
   // 讓父元件 Home.jsx 來決定圖表的容器和佈局
 
-  const nameArray = dataset.filter((item) => item.name);
+  const nameArray = dataset.map((item) => item.name);
   const countsArray = dataset.map((item) => item.count);
 
   return (
@@ -25,7 +25,6 @@ export default function ChartBar({ type, dataset, width, yDataKey, sDataKey, bar
             stripeColor={null}
             series={[{ label: sDataLabel, data: countsArray }]}
             radar={{
-              labelFormatter: (value) => `${value}`,
               labelGap: 15,
               max: countMax,
               metrics: nameArray,
